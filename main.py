@@ -23,15 +23,25 @@ training_dir = data_dir + '/data_road/training'
 training_size = len(glob.glob(training_dir + '/calib/*.*'))
 vgg_dir = data_dir + '/vgg'
     
+
 # Training constants
+# Road and not Road
 num_classes_ = 2
+
+# Image shape (height, width) -> (rows,columns)
 img_shape_ = (160, 576)
 
-epochs_ = 20
+# Training epochs. Tuned empirically
+epochs_ = 25
+
+# Can only use 1 or max 2 with VRAM at 4 GB
 batch_size_ = 2
 
+# Learning rate is kept small because batch size is pretty minimal
 learning_rate_ = 0.0001
-dropout_ = 0.75
+
+# Dropout tuned empirically
+dropout_ = 0.80
 
 # Place_holders (_ph)
 label_ph = tf.placeholder(tf.float32, [None, 
@@ -218,7 +228,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op,
 
         # Print Training loss at end of each Epoch
         print("***************")
-        print("Epoch: ", epoch + 1, " of ", epochs_, "training loss: ", training_loss)
+        print("Epoch: ", epoch + 1, " of ", epochs_, "->Training loss: ", training_loss)
         print("***************")
 
 
